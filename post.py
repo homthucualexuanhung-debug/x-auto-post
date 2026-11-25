@@ -1,4 +1,5 @@
 import os
+import time
 import random
 import tweepy
 from google import genai
@@ -35,6 +36,24 @@ x_client = tweepy.Client(
     access_token_secret=X_ACCESS_SECRET
 )
 
+def tao_noi_dung(prompt):
+    # Danh sách mô hình ưu tiên: nếu mô hình chính quá tải (503) sẽ tự đổi sang mô hình dự phòng
+    cac_mo_hinh = ['gemini-3.8-flash', 'gemini-3.8-flash-lite', 'gemini-3.5-flash']
+    
+    for model_name in cac_mo_hinh:
+        for lan_thu in range(3):
+            try:
+                response = gemini_client.models.generate_content(
+                    model=model_name,
+                    contents=prompt,
+                )
+                return response.text.strip()
+            except Exception as e:
+                print(f"Mô hình {model_name} đang bận (lần {lan_thu + 1}), thử lại sau 5 giây...")
+                time.sleep(5)
+                
+    raise Exception("Tất cả các mô hình AI đều đang quá tải.")
+
 def chay_tu_dong():
     nguoi_duoc_tag = random.sample(DANH_SACH_TAG, min(2, len(DANH_SACH_TAG)))
     chuoi_tag = " ".join(nguoi_duoc_tag)
@@ -53,11 +72,7 @@ def chay_tu_dong():
     "{BAI_MAU}"
     """
 
-    response = gemini_client.models.generate_content(
-        model='gemini-3.8-flash',
-        contents=prompt,
-    )
-    noi_dung_post = response.text.strip()
+    noi_dung_post = tao_noi_dung(prompt)
     
     # Đăng lên X
     tweet = x_client.create_tweet(text=noi_dung_post)

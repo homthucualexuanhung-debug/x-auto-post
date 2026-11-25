@@ -10,12 +10,15 @@ X_API_SECRET = os.environ["X_API_SECRET"]
 X_ACCESS_TOKEN = os.environ["X_ACCESS_TOKEN"]
 X_ACCESS_SECRET = os.environ["X_ACCESS_SECRET"]
 
-# Danh sách username muốn tag (tự bốc ngẫu nhiên 2 người mỗi bài)
+# Danh sách 7 username muốn tag (tự bốc ngẫu nhiên 2 người mỗi bài)
 DANH_SACH_TAG = [
-    "@username_1", 
-    "@username_2", 
-    "@username_3", 
-    "@username_4"
+    "@phuonggiahn",
+    "@EliasNaoki9",
+    "@hocgiad",
+    "@khanhhuyenday98",
+    "@admvhv",
+    "@Jessica_havana",
+    "@minhkui01"
 ]
 
 BAI_MAU = """Một ngày 30 đến 35 bài

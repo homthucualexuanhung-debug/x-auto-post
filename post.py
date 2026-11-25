@@ -51,7 +51,7 @@ def chay_tu_dong():
     """
 
     response = gemini_client.models.generate_content(
-        model='gemini-2.5-flash',
+        model='gemini-3.8-flash',
         contents=prompt,
     )
     noi_dung_post = response.text.strip()
